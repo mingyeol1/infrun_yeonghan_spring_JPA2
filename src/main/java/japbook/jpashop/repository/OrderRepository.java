@@ -71,4 +71,13 @@ public class OrderRepository {
     }
 
 
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                "select distinct o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d" +
+                " join fetch o.orderItems oi" +     //1 대 다 면 페이징이 불가능해서 사용이 불가능하다. 다른방법을 찾아야함.
+                " join fetch oi.item", Order.class)
+                .getResultList();
+    }
 }
